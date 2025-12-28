@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Brille et Vibre - Ton potentiel Business en Ligne</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-color: #6d28d9;
+            --secondary-color: #a78bfa;
+            --text-color: #374151;
+            --bg-light: #f3f4f6;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-light);
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #5b21b6;
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: var(--text-color);
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0%; /* Sera ajusté par JS */
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+        .question-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .answer-option {
+            cursor: pointer;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            text-align: left;
+            margin-bottom: 0.75rem;
+        }
+        .answer-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .answer-option.selected {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="max-w-3xl mx-auto w-full">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold mb-2" style="color: var(--primary-color);">
+                Quiz "Brille et Vibre"
+            </h1>
+            <p class="text-lg text-gray-600">
+                Découvre ton potentiel pour le business en ligne
+            </p>
+        </div>
+
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        </div>
+
+        <div id="quiz-container" class="question-card">
+            </div>
+
+        <div id="results-container" class="question-card hidden">
+            <h2 class="text-3xl font-bold mb-4 text-center">Ton Profil Entrepreneur Brille et Vibre !</h2>
+            <p class="text-lg text-gray-700 mb-6 text-center">
+                Félicitations ! D'après tes réponses, voici une analyse de ton potentiel pour le business en ligne.
+            </p>
+            <div class="bg-gray-100 p-6 rounded-lg mb-6">
+                <p class="text-xl font-semibold mb-2" style="color: var(--primary-color);">Ton Score de Potentiel : <span id="final-score" class="font-bold text-3xl"></span> %</p>
+                <p class="text-lg">
+                    <span id="score-message"></span>
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-4 text-center">Étape Suivante : Estime tes Revenus Potentiels !</h3>
+            <p class="text-md text-gray-700 mb-6 text-center">
+                Maintenant que tu connais ton potentiel, découvrons combien tu pourrais gagner avec le MRR.
+            </p>
+            
+            <form action="https://formspree.io/f/your_form_id" method="POST" class="mt-8">
+                <p class="text-center text-lg mb-4">
+                    Pour accéder à ton estimation personnalisée et à tes premiers conseils Brille et Vibre,
+                    laisse-nous ton e-mail :
+                </p>
+                <input type="email" name="email" placeholder="Ton e-mail ici..." required
+                       class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-400 mb-4">
+                <button type="submit" class="btn-primary w-full inline-block">
+                    Voir mes revenus potentiels !
+                </button>
+            </form>
+
+            <p class="text-sm text-gray-500 mt-6 text-center">
+                Tes données sont en sécurité avec Brille et Vibre.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const scoreMessageDisplay = document.getElementById('score-message');
+        const progressBarFill = document.getElementById('progress-bar-fill');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswers = []; // Pour stocker les réponses de l'utilisateur
+
+        const questions = [
+            {
+                question: "Quelle est ta principale motivation pour démarrer un business en ligne ?",
+                options: [
+                    { text: "Atteindre l'indépendance financière et la liberté géographique.", value: 10 },
+                    { text: "Avoir un revenu complémentaire sans trop d'efforts.", value: 5 },
+                    { text: "Apprendre de nouvelles compétences et me développer.", value: 7 },
+                    { text: "Suivre la tendance et voir ce que ça donne.", value: 3 }
+                ]
+            },
+            {
+                question: "Combien de temps es-tu prêt(e) à consacrer à ton projet par semaine ?",
+                options: [
+                    { text: "15 heures ou plus (à fond !)", value: 10 },
+                    { text: "5 à 10 heures (régulièrement)", value: 7 },
+                    { text: "1 à 4 heures (pour commencer)", value: 4 },
+                    { text: "Moins d'une heure (occasionnellement)", value: 1 }
+                ]
+            },
+            {
+                question: "Comment réagis-tu face à un échec ou une difficulté ?",
+                options: [
+                    { text: "J'analyse, j'apprends et je pivote rapidement.", value: 10 },
+                    { text: "Je suis déçu(e) mais je persévère.", value: 7 },
+                    { text: "J'ai tendance à abandonner si c'est trop dur.", value: 3 },
+                    { text: "Je cherche immédiatement une solution externe.", value: 5 }
+                ]
+            },
+            {
+                question: "Es-tu à l'aise avec l'idée d'apprendre de nouvelles technologies et outils ?",
+                options: [
+                    { text: "Oui, j'adore découvrir et maîtriser de nouveaux outils.", value: 10 },
+                    { text: "Un peu, si c'est nécessaire et pas trop complexe.", value: 7 },
+                    { text: "Pas vraiment, je préfère ce qui est simple et connu.", value: 4 },
+                    { text: "Non, je suis technophobe.", value: 1 }
+                ]
+            },
+            {
+                question: "Quelle est ton approche vis-à-vis de l'investissement initial (temps ou argent) ?",
+                options: [
+                    { text: "Je suis prêt(e) à investir ce qu'il faut pour réussir.", value: 10 },
+                    { text: "Je préfère commencer petit et augmenter progressivement.", value: 7 },
+                    { text: "Je cherche des solutions totalement gratuites.", value: 3 },
+                    { text: "Je ne veux rien investir du tout.", value: 1 }
+                ]
+            }
+        ];
+
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const q = questions[currentQuestionIndex];
+                quizContainer.innerHTML = `
+                    <h2 class="text-2xl font-bold mb-6 text-center">${q.question}</h2>
+                    <div id="options-container" class="flex flex-col">
+                        ${q.options.map((option, index) => `
+                            <div class="answer-option" data-value="${option.value}" data-index="${index}">
+                                ${option.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="flex justify-between mt-8">
+                        <button id="prev-btn" class="btn-secondary ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            Précédent
+                        </button>
+                        <button id="next-btn" class="btn-primary" disabled>
+                            Suivant
+                        </button>
+                    </div>
+                `;
+
+                // Met à jour la barre de progression
+                updateProgressBar();
+
+                // Ajoute les écouteurs d'événements pour les options
+                document.querySelectorAll('.answer-option').forEach(optionElement => {
+                    optionElement.addEventListener('click', () => {
+                        // Désélectionne toutes les options précédentes pour cette question
+                        document.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
+                        // Sélectionne l'option cliquée
+                        optionElement.classList.add('selected');
+                        // Active le bouton Suivant
+                        document.getElementById('next-btn').disabled = false;
+                    });
+                });
+
+                document.getElementById('next-btn').addEventListener('click', handleNextQuestion);
+                document.getElementById('prev-btn').addEventListener('click', handlePreviousQuestion);
+
+                // Si une réponse était déjà sélectionnée pour cette question, la restaurer
+                if (selectedAnswers[currentQuestionIndex] !== undefined) {
+                    const selectedOptionIndex = selectedAnswers[currentQuestionIndex].optionIndex;
+                    const optionElement = document.querySelector(`.answer-option[data-index="${selectedOptionIndex}"]`);
+                    if (optionElement) {
+                        optionElement.classList.add('selected');
+                        document.getElementById('next-btn').disabled = false; // Réactive le bouton
+                    }
+                }
+
+            } else {
+                showResults();
+            }
+        }
+
+        function handleNextQuestion() {
+            const selectedOption = document.querySelector('.answer-option.selected');
+            if (selectedOption) {
+                const value = parseInt(selectedOption.dataset.value);
+                const optionIndex = parseInt(selectedOption.dataset.index);
+
+                // Sauvegarde la réponse
+                selectedAnswers[currentQuestionIndex] = { value, optionIndex };
+
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function handlePreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function calculateFinalScore() {
+            let totalPossibleScore = 0;
+            let userScore = 0;
+
+            questions.forEach((q, qIndex) => {
+                // Pour chaque question, trouver la valeur max possible
+                const maxVal = Math.max(...q.options.map(o => o.value));
+                totalPossibleScore += maxVal;
+
+                // Ajouter le score de la réponse de l'utilisateur si elle existe
+                if (selectedAnswers[qIndex]) {
+                    userScore += selectedAnswers[qIndex].value;
+                }
+            });
+
+            // Calcul du pourcentage
+            return Math.round((userScore / totalPossibleScore) * 100);
+        }
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+
+            const finalScore = calculateFinalScore();
+            finalScoreDisplay.textContent = finalScore;
+
+            if (finalScore >= 80) {
+                scoreMessageDisplay.innerHTML = "Incroyable ! Ton profil est **extrêmement aligné** avec les exigences du business en ligne. Tu as la détermination, la curiosité et la résilience nécessaires pour briller et vibrer dans cet univers. Prépare-toi à des succès retentissants !";
+            } else if (finalScore >= 60) {
+                scoreMessageDisplay.innerHTML = "Très prometteur ! Tu as un **excellent potentiel** pour le business en ligne. Avec un peu d'ajustement et la bonne méthode, tu peux transformer ce potentiel en de réels succès. L'aventure t'attend !";
+            } else if (finalScore >= 40) {
+                scoreMessageDisplay.innerHTML = "Bonne base ! Tu as un **potentiel certain**, mais quelques points pourraient être renforcés pour t'épanouir pleinement dans le business en ligne. C'est le moment d'apprendre et de développer de nouvelles facettes.";
+            } else {
+                scoreMessageDisplay.innerHTML = "En cours de développement. Le business en ligne demande des qualités spécifiques, mais avec un bon accompagnement et une volonté d'apprendre, tout est possible. C'est une excellente occasion de te challenger !";
+            }
+
+            // Ici, tu peux aussi injecter l'ID de ton formulaire Formspree.
+            // Replace 'your_form_id' in the <form action="..."> above with your actual Formspree ID.
+            // Exemple : https://formspree.io/f/xbjnjkno
+        }
+
+        function updateProgressBar() {
+            const progress = (currentQuestionIndex / questions.length) * 100;
+            progressBarFill.style.width = `${progress}%`;
+        }
+
+        // Initialiser le quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
