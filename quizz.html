@@ -155,12 +155,13 @@
             },
             {
                 question: "Combien de temps es-tu prêt(e) à consacrer à ton projet par semaine ?",
-                options: [
-                    { text: "15 heures ou plus (à fond !)", value: 10 },
-                    { text: "5 à 10 heures (régulièrement)", value: 7 },
-                    { text: "1 à 4 heures (pour commencer)", value: 4 },
-                    { text: "Moins d'une heure (occasionnellement)", value: 1 }
-                ]
+    id: "temps", // On ajoute cet identifiant
+    options: [
+        { text: "15 heures ou plus (à fond !)", value: 10, key: "15plus" },
+        { text: "5 à 10 heures (régulièrement)", value: 7, key: "5-10" },
+        { text: "1 à 4 heures (pour commencer)", value: 4, key: "1-4" },
+        { text: "Moins d'une heure (occasionnellement)", value: 1, key: "1-4" }
+    ]
             },
             {
                 question: "Comment réagis-tu face à un échec ou une difficulté ?",
