@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quel Est Ton Profil Entrepreneur Digital ?</title>
+    <title>Es-tu Prêt(e) Pour Ton Business Digital ?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -200,6 +200,7 @@
             font-size: 1.125rem;
             line-height: 1.8;
             color: #4b5563;
+            text-align: left;
         }
         
         .result-cta {
@@ -224,16 +225,30 @@
         .hidden {
             display: none;
         }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .question-title {
+                font-size: 1.5rem;
+            }
+            
+            .result-title {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container-quiz">
         <div class="text-center mb-8">
             <h1 style="font-size: 3rem; font-weight: 900; color: white; margin-bottom: 0.5rem; text-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-                Quel Est Ton Profil Entrepreneur Digital ?
+                Es-tu Prêt(e) Pour Ton Business Digital ? 🚀
             </h1>
             <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9);">
-                Identifie la stratégie qui correspond à tes forces naturelles
+                Découvre ton profil et ce qui te bloque vraiment
             </p>
         </div>
 
@@ -256,8 +271,8 @@
             <h2 class="result-title" id="resultTitle"></h2>
             <h3 class="result-subtitle" id="resultSubtitle"></h3>
             <div class="result-description" id="resultDescription"></div>
-            <a href="https://shop.beacons.ai/brilleetvibre/9cff3d0a-5313-4c90-9db5-7e6d5ec54309" class="result-cta">
-                Découvre Code Liberté
+            <a href="https://shop.beacons.ai/brilleetvibre/9cff3d0a-5313-4c90-9db5-7e6d5ec54309" class="result-cta" target="_blank">
+                🎯 Découvre Code Liberté
             </a>
         </div>
     </div>
@@ -265,83 +280,109 @@
     <script>
         const questions = [
             {
-                title: "Quand tu t'imagines dans 6 mois tu te vois où?",
+                title: "Quand tu penses à lancer ton business en ligne...",
+                subtitle: "Sois honnête avec toi-même",
                 options: [
-                    { text: "Au même endroit qu'aujourd'hui?", profile: "createur", value: 10 },
-                    { text: "Toujours en train de réfléchir à un business?", profile: "batisseur", value: 10 },
-                    { text: "Avec un business qui tourne?", profile: "architecte", value: 10 },
+                    { text: "J'ai peur de ne pas y arriver", profile: "bloque", points: 1 },
+                    { text: "J'ai envie mais je ne sais pas par où commencer", profile: "perdu", points: 2 },
+                    { text: "Je suis prêt(e) mais il me manque la méthode", profile: "pret", points: 3 }
                 ]
             },
             {
-                title: "Imagine que tu te reveilles demain sans réveil, tu bosses depuis ton canapé ça te fait quoi?",
+                title: "Aujourd'hui, as-tu une idée claire de ce que tu veux vendre ?",
+                subtitle: "La clarté est essentielle",
                 options: [
-                    { text: "Rien de spécial", profile: "createur", value: 8 },
-                    { text: "Ca fait rêver", profile: "batisseur", value: 8 },
-                    { text: "C'est exactement la vie que je veux", profile: "architecte", value: 8 },
+                    { text: "Non, et ça me bloque complètement", profile: "bloque", points: 1 },
+                    { text: "J'ai plein d'idées mais rien de concret", profile: "perdu", points: 2 },
+                    { text: "Oui, j'ai déjà mon idée ou mon produit", profile: "pret", points: 3 }
                 ]
             },
             {
-                title: "Tu recois une notification vous avez reçu un paiement de 350€ qu'est ce que ca provoque en toi?",
+                title: "Si tu pouvais générer 3000€ par mois depuis ton téléphone...",
+                subtitle: "Imagine ce moment",
                 options: [
-                    { text: "J'y crois pas trop", profile: "createur", value: 9 },
-                    { text: "De l'excitation mais aussi du stress", profile: "batisseur", value: 9 },
-                    { text: "De la fierté et de l'envie d'en faire plus", profile: "architecte", value: 9 },
+                    { text: "Ça me paraît irréel, je n'y crois pas", profile: "bloque", points: 1 },
+                    { text: "J'aimerais tellement, mais je ne sais pas comment", profile: "perdu", points: 2 },
+                    { text: "C'est exactement mon objectif, j'y crois", profile: "pret", points: 3 }
                 ]
             },
             {
-                title: "Quand tu démarres quelque chose tu es plutôt...",
+                title: "Tu es prêt(e) à apprendre le marketing digital et la création de contenu ?",
+                subtitle: "L'apprentissage est la clé",
                 options: [
-                    { text: "Régulier même sans résultats immédiats?", profile: "achitecte", value: 7 },
-                    { text: "Motivé au début puis ça retombe?", profile: "batisseur", value: 7 },
-                    { text: "Vite découragé", profile: "createur", value: 7 },
+                    { text: "Non, c'est trop compliqué pour moi", profile: "bloque", points: 1 },
+                    { text: "Oui, si quelqu'un me guide pas à pas", profile: "perdu", points: 2 },
+                    { text: "Carrément ! J'ai trop envie d'apprendre", profile: "pret", points: 3 }
                 ]
             },
             {
-                title: "T'es prêt(e) à apprendre le marketing digital la création de contenu et la vente pour réussir?",
+                title: "Quand tu commences un projet, tu es plutôt...",
+                subtitle: "Ta façon de fonctionner",
                 options: [
-                    { text: "Non c'est trop compliqué", profile: "createur", value: 10 },
-                    { text: "Oui si on me guide étape par étape", profile: "batisseur", value: 10 },
-                    { text: "Oui j'ai trop envie", profile: "architecte", value: 10 },
+                    { text: "Vite découragé(e) si je ne vois pas de résultats", profile: "bloque", points: 1 },
+                    { text: "Motivé(e) au début, puis ça retombe", profile: "perdu", points: 2 },
+                    { text: "Régulier(e), même sans résultats immédiats", profile: "pret", points: 3 }
                 ]
             },
-             {
-                title: "Aujourd'hui as tu une idée claire de ce que tu veux vendre en ligne?",
+            {
+                title: "Dans 6 mois, où te vois-tu ?",
+                subtitle: "Projection dans le futur",
                 options: [
-                    { text: "Oui j'ai déjà mon produit", profile: "architecte", value: 10 },
-                    { text: "J'ai des idées mais rien de concret", profile: "batisseur", value: 10 },
-                    { text: "Non et ça me bloque", profile: "createur", value: 10 },
+                    { text: "Toujours au même endroit, rien n'aura changé", profile: "bloque", points: 1 },
+                    { text: "En train de chercher encore la bonne méthode", profile: "perdu", points: 2 },
+                    { text: "Avec un business qui tourne et génère des revenus", profile: "pret", points: 3 }
                 ]
             }
         ];
 
         const profiles = {
-            createur: {
-                icon: "🎨",
-                title: "Tu doutes",
-                description: "Tu as des doutes mais avec une méthode claire tu peux y arriver clique ci dessous pour voir ma vidéo."
+            bloque: {
+                icon: "🔒",
+                title: "Le Bloqué",
+                subtitle: "Tu as des blocages mentaux à lever",
+                description: `<strong>Ce qui te retient :</strong> Le syndrome de l'imposteur, la peur de l'échec, ou simplement le manque de confiance.<br><br>
+
+<strong>La bonne nouvelle :</strong> Ces blocages sont normaux ! Tout le monde les a au début. Ce dont tu as besoin, c'est d'une méthode simple et d'un accompagnement rassurant.<br><br>
+
+<strong>Code Liberté est parfait pour toi car :</strong><br>
+✅ On part de zéro, pas à pas<br>
+✅ On te donne un produit déjà prêt à vendre<br>
+✅ Tu verras des résultats rapidement ce qui va te débloquer<br>
+✅ Tu rejoins une communauté bienveillante`
             },
-            batisseur: {
-                icon: "🏗️",
-                title: "L'envie",
-                subtitle: "Ta force : Rassembler et Fédérer",
-                description: "Tu as l'envie mais il te manque le produit clique ci dessous pour voir ma vidéo."
+            perdu: {
+                icon: "🧭",
+                title: "Le Perdu",
+                subtitle: "Tu as envie, mais tu manques de direction",
+                description: `<strong>Ce qui te retient :</strong> Trop d'informations contradictoires, trop d'options, pas de plan clair.<br><br>
+
+<strong>La bonne nouvelle :</strong> Tu as la motivation ! Il te manque juste une roadmap claire et un produit à vendre.<br><br>
+
+<strong>Code Liberté est parfait pour toi car :</strong><br>
+✅ Un plan étape par étape (plus de dispersion)<br>
+✅ Un produit clé en main (plus besoin de chercher)<br>
+✅ Les stratégies qui marchent vraiment en 2025<br>
+✅ Tu gagnes des mois de galère et d'essais/erreurs`
             },
-            architecte: {
-                icon: "⚙️",
-                title: "T'es un(e) warrior",
-                subtitle: "Ta force : Automatiser l'Impossible",
-                description: "T'es un(e) warrior, avec la bonne méthode tu vas déchirer clique ci dessous pour voir ma vidéo."
-            },
-            connecteur: {
-                icon: "💫",
-                title: "Tu es fait(e) pour ca",
-                subtitle: "Ta force : Vendre Sans Vendre",
-                description: "Les gens t'achètent parce qu'ils te font confiance. Tu crées des connexions réelles, pas des transactions. Ta stratégie gagnante : Relationship Marketing & Coaching clique ci dessous pour voir ma vidéo."
+            pret: {
+                icon: "⚡",
+                title: "Le Warrior",
+                subtitle: "Tu es prêt(e), il te manque juste la méthode",
+                description: `<strong>Ce qui te définit :</strong> Tu as la détermination, la vision, et l'envie d'apprendre. Tu es un(e) warrior !<br><br>
+
+<strong>La bonne nouvelle :</strong> Avec la bonne méthode, tu vas exploser. Tu as le mindset de ceux qui réussissent.<br><br>
+
+<strong>Code Liberté est parfait pour toi car :</strong><br>
+✅ Tu vas passer à l'action immédiatement<br>
+✅ Un produit prêt, testé et validé<br>
+✅ Les stratégies marketing qui convertissent<br>
+✅ Tu vas scaler rapidement et générer tes premiers revenus`
             }
         };
 
         let currentQuestion = 0;
         let answers = [];
+        let totalPoints = 0;
 
         function updateProgress() {
             const progress = ((currentQuestion + 1) / questions.length) * 100;
@@ -374,18 +415,22 @@
             updateProgress();
         }
 
-        function getTopProfile() {
-            const scores = {};
-            answers.forEach(answer => {
-                const profile = answer.profile;
-                scores[profile] = (scores[profile] || 0) + answer.value;
-            });
-            return Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        function getProfile() {
+            // Calcul du score total
+            const avgPoints = totalPoints / questions.length;
+            
+            if (avgPoints <= 1.5) {
+                return 'bloque';
+            } else if (avgPoints <= 2.5) {
+                return 'perdu';
+            } else {
+                return 'pret';
+            }
         }
 
         function showResult() {
-            const topProfile = getTopProfile();
-            const result = profiles[topProfile];
+            const profileKey = getProfile();
+            const result = profiles[profileKey];
             
             document.getElementById('quizCard').classList.add('hidden');
             document.getElementById('resultCard').classList.remove('hidden');
@@ -393,7 +438,7 @@
             document.getElementById('resultIcon').textContent = result.icon;
             document.getElementById('resultTitle').textContent = result.title;
             document.getElementById('resultSubtitle').textContent = result.subtitle;
-            document.getElementById('resultDescription').textContent = result.description;
+            document.getElementById('resultDescription').innerHTML = result.description;
         }
 
         document.getElementById('nextBtn').addEventListener('click', () => {
@@ -402,6 +447,7 @@
                 const idx = parseInt(selected.dataset.index);
                 const answer = questions[currentQuestion].options[idx];
                 answers[currentQuestion] = answer;
+                totalPoints += answer.points;
                 
                 currentQuestion++;
                 if (currentQuestion < questions.length) {
@@ -414,6 +460,8 @@
 
         document.getElementById('prevBtn').addEventListener('click', () => {
             if (currentQuestion > 0) {
+                // Retirer les points de la question précédente
+                totalPoints -= answers[currentQuestion - 1].points;
                 currentQuestion--;
                 loadQuestion();
             }
