@@ -24,6 +24,8 @@
             border-radius: 0.5rem;
             font-weight: 600;
             transition: background-color 0.3s ease;
+            text-align: center;
+            display: block;
         }
         .btn-primary:hover {
             background-color: #5b21b6;
@@ -42,7 +44,7 @@
         .progress-bar-fill {
             height: 100%;
             background-color: var(--secondary-color);
-            width: 0%; /* Sera ajusté par JS */
+            width: 0%;
             border-radius: 9999px;
             transition: width 0.5s ease-in-out;
         }
@@ -109,26 +111,13 @@
                 </p>
             </div>
 
-            <h3 class="text-2xl font-bold mb-4 text-center">Étape Suivante : Estime tes Revenus Potentiels !</h3>
-            <p class="text-md text-gray-700 mb-6 text-center">
-                Maintenant que tu connais ton potentiel, découvrons combien tu pourrais gagner avec le MRR.
-            </p>
+            <h3 class="text-2xl font-bold mb-4 text-center">Étape Suivante</h3>
             
-            <form action="https://formspree.io/f/your_form_id" method="POST" class="mt-8">
-                <p class="text-center text-lg mb-4">
-                    Pour accéder à ton estimation personnalisée et à tes premiers conseils Brille et Vibre,
-                    laisse-nous ton e-mail :
-                </p>
-                <input type="email" name="email" placeholder="Ton e-mail ici..." required
-                       class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-400 mb-4">
-                <button type="submit" class="btn-primary w-full inline-block">
-                    Voir mes revenus potentiels !
-                </button>
-            </form>
-
-            <p class="text-sm text-gray-500 mt-6 text-center">
-                Tes données sont en sécurité avec Brille et Vibre.
-            </p>
+            <div class="mt-8">
+                <a href="https://shop.beacons.ai/brilleetvibre/9cff3d0a-5313-4c90-9db5-7e6d5ec54309" class="btn-primary w-full block">
+                    Clique si tu veux une idée de business pour atteindre tes objectifs
+                </a>
+            </div>
         </div>
     </div>
 
@@ -140,8 +129,7 @@
         const progressBarFill = document.getElementById('progress-bar-fill');
 
         let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswers = []; // Pour stocker les réponses de l'utilisateur
+        let selectedAnswers = [];
 
         const questions = [
             {
@@ -155,13 +143,12 @@
             },
             {
                 question: "Combien de temps es-tu prêt(e) à consacrer à ton projet par semaine ?",
-    id: "temps", // On ajoute cet identifiant
-    options: [
-        { text: "15 heures ou plus (à fond !)", value: 10, key: "15plus" },
-        { text: "5 à 10 heures (régulièrement)", value: 7, key: "5-10" },
-        { text: "1 à 4 heures (pour commencer)", value: 4, key: "1-4" },
-        { text: "Moins d'une heure (occasionnellement)", value: 1, key: "1-4" }
-    ]
+                options: [
+                    { text: "15 heures ou plus (à fond !)", value: 10 },
+                    { text: "5 à 10 heures (régulièrement)", value: 7 },
+                    { text: "1 à 4 heures (pour commencer)", value: 4 },
+                    { text: "Moins d'une heure (occasionnellement)", value: 1 }
+                ]
             },
             {
                 question: "Comment réagis-tu face à un échec ou une difficulté ?",
@@ -214,17 +201,12 @@
                     </div>
                 `;
 
-                // Met à jour la barre de progression
                 updateProgressBar();
 
-                // Ajoute les écouteurs d'événements pour les options
                 document.querySelectorAll('.answer-option').forEach(optionElement => {
                     optionElement.addEventListener('click', () => {
-                        // Désélectionne toutes les options précédentes pour cette question
                         document.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
-                        // Sélectionne l'option cliquée
                         optionElement.classList.add('selected');
-                        // Active le bouton Suivant
                         document.getElementById('next-btn').disabled = false;
                     });
                 });
@@ -232,13 +214,12 @@
                 document.getElementById('next-btn').addEventListener('click', handleNextQuestion);
                 document.getElementById('prev-btn').addEventListener('click', handlePreviousQuestion);
 
-                // Si une réponse était déjà sélectionnée pour cette question, la restaurer
                 if (selectedAnswers[currentQuestionIndex] !== undefined) {
                     const selectedOptionIndex = selectedAnswers[currentQuestionIndex].optionIndex;
                     const optionElement = document.querySelector(`.answer-option[data-index="${selectedOptionIndex}"]`);
                     if (optionElement) {
                         optionElement.classList.add('selected');
-                        document.getElementById('next-btn').disabled = false; // Réactive le bouton
+                        document.getElementById('next-btn').disabled = false;
                     }
                 }
 
@@ -252,10 +233,7 @@
             if (selectedOption) {
                 const value = parseInt(selectedOption.dataset.value);
                 const optionIndex = parseInt(selectedOption.dataset.index);
-
-                // Sauvegarde la réponse
                 selectedAnswers[currentQuestionIndex] = { value, optionIndex };
-
                 currentQuestionIndex++;
                 loadQuestion();
             }
@@ -271,42 +249,31 @@
         function calculateFinalScore() {
             let totalPossibleScore = 0;
             let userScore = 0;
-
             questions.forEach((q, qIndex) => {
-                // Pour chaque question, trouver la valeur max possible
                 const maxVal = Math.max(...q.options.map(o => o.value));
                 totalPossibleScore += maxVal;
-
-                // Ajouter le score de la réponse de l'utilisateur si elle existe
                 if (selectedAnswers[qIndex]) {
                     userScore += selectedAnswers[qIndex].value;
                 }
             });
-
-            // Calcul du pourcentage
             return Math.round((userScore / totalPossibleScore) * 100);
         }
 
         function showResults() {
             quizContainer.classList.add('hidden');
             resultsContainer.classList.remove('hidden');
-
             const finalScore = calculateFinalScore();
             finalScoreDisplay.textContent = finalScore;
 
             if (finalScore >= 80) {
-                scoreMessageDisplay.innerHTML = "Incroyable ! Ton profil est **extrêmement aligné** avec les exigences du business en ligne. Tu as la détermination, la curiosité et la résilience nécessaires pour briller et vibrer dans cet univers. Prépare-toi à des succès retentissants !";
+                scoreMessageDisplay.innerHTML = "Incroyable ! Ton profil est **extrêmement aligné** avec les exigences du business en ligne. Tu as la détermination, la curiosité et la résilience nécessaires pour briller et vibrer.";
             } else if (finalScore >= 60) {
-                scoreMessageDisplay.innerHTML = "Très prometteur ! Tu as un **excellent potentiel** pour le business en ligne. Avec un peu d'ajustement et la bonne méthode, tu peux transformer ce potentiel en de réels succès. L'aventure t'attend !";
+                scoreMessageDisplay.innerHTML = "Très prometteur ! Tu as un **excellent potentiel**. Avec la bonne méthode, tu peux transformer ce potentiel en réels succès.";
             } else if (finalScore >= 40) {
-                scoreMessageDisplay.innerHTML = "Bonne base ! Tu as un **potentiel certain**, mais quelques points pourraient être renforcés pour t'épanouir pleinement dans le business en ligne. C'est le moment d'apprendre et de développer de nouvelles facettes.";
+                scoreMessageDisplay.innerHTML = "Bonne base ! Tu as un **potentiel certain**, mais quelques points pourraient être renforcés pour t'épanouir pleinement.";
             } else {
-                scoreMessageDisplay.innerHTML = "En cours de développement. Le business en ligne demande des qualités spécifiques, mais avec un bon accompagnement et une volonté d'apprendre, tout est possible. C'est une excellente occasion de te challenger !";
+                scoreMessageDisplay.innerHTML = "En cours de développement. Avec un bon accompagnement et une volonté d'apprendre, tout est possible.";
             }
-
-            // Ici, tu peux aussi injecter l'ID de ton formulaire Formspree.
-            // Replace 'your_form_id' in the <form action="..."> above with your actual Formspree ID.
-            // Exemple : https://formspree.io/f/xbjnjkno
         }
 
         function updateProgressBar() {
@@ -314,7 +281,6 @@
             progressBarFill.style.width = `${progress}%`;
         }
 
-        // Initialiser le quiz
         loadQuestion();
     </script>
 </body>
