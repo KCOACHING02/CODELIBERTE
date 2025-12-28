@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brille et Vibre - Estime tes Revenus MRR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6d28d9;
+            --secondary-color: #a78bfa;
+            --bg-light: #f9fafb;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: #1f2937;
+        }
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e5e7eb;
+            outline: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .card-revenue {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="max-w-3xl mx-auto w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-8 text-center border-b border-gray-100">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Simulateur de Revenus <span class="text-purple-600">Brille et Vibre</span></h1>
+            <p class="text-gray-600 text-lg">Ajuste les paramètres pour voir ce que le MRR peut t'apporter.</p>
+        </div>
+
+        <div class="p-8 space-y-10">
+            <div>
+                <div class="flex justify-between mb-4">
+                    <label class="font-semibold text-gray-700">Prix de vente de ta formation (€)</label>
+                    <span id="price-display" class="font-bold text-purple-600 text-xl">497 €</span>
+                </div>
+                <input type="range" id="price-slider" min="50" max="1000" step="10" value="497" class="slider">
+                <p class="text-xs text-gray-400 mt-2 italic">*Le prix moyen constaté pour une formation MRR complète est de 497€.</p>
+            </div>
+
+            <div>
+                <div class="flex justify-between mb-4">
+                    <label class="font-semibold text-gray-700">Nombre de ventes par semaine</label>
+                    <span id="sales-display" class="font-bold text-purple-600 text-xl">3</span>
+                </div>
+                <input type="range" id="sales-slider" min="1" max="20" step="1" value="3" class="slider">
+            </div>
+
+            <div class="card-revenue p-8 rounded-xl text-white text-center shadow-lg">
+                <p class="text-sm uppercase tracking-widest opacity-80 mb-2 font-semibold">Ton potentiel de revenu mensuel</p>
+                <div class="text-6xl font-black mb-4"><span id="total-revenue">0</span> €</div>
+                <p class="text-xs opacity-70">Basé sur un mois de 4 semaines. Revenus 100% pour toi (modèle MRR).</p>
+            </div>
+
+            <div class="text-center space-y-4">
+                <h3 class="text-xl font-bold text-gray-800">Ce résultat te fait vibrer ?</h3>
+                <p class="text-gray-600">Ton profil est validé et les chiffres sont là. Réserve ton appel stratégique offert pour que nous puissions mettre cela en place ensemble.</p>
+                
+                <a href="https://calendly.com/ton-lien" target="_blank" class="inline-block w-full sm:w-auto px-10 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-full transition-all transform hover:scale-105 shadow-xl">
+                    Réserver mon appel stratégique (Offert)
+                </a>
+                
+                <p class="text-sm text-gray-400">Places limitées pour garantir un accompagnement de qualité.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const priceSlider = document.getElementById('price-slider');
+        const salesSlider = document.getElementById('sales-slider');
+        const priceDisplay = document.getElementById('price-display');
+        const salesDisplay = document.getElementById('sales-display');
+        const totalRevenue = document.getElementById('total-revenue');
+
+        function updateCalculations() {
+            const price = parseInt(priceSlider.value);
+            const salesPerWeek = parseInt(salesSlider.value);
+            
+            // Mise à jour des textes
+            priceDisplay.textContent = price + " €";
+            salesDisplay.textContent = salesPerWeek;
+
+            // Calcul : Prix * Ventes par semaine * 4 semaines
+            const monthlyTotal = price * salesPerWeek * 4;
+            
+            // Animation du chiffre
+            animateNumber(totalRevenue, monthlyTotal);
+        }
+
+        function animateNumber(element, target) {
+            let current = parseInt(element.textContent.replace(/\s/g, '')) || 0;
+            const step = Math.ceil(Math.abs(target - current) / 10);
+            
+            if (current < target) {
+                current = Math.min(current + step, target);
+            } else {
+                current = Math.max(current - step, target);
+            }
+            
+            element.textContent = current.toLocaleString('fr-FR');
+            
+            if (current !== target) {
+                requestAnimationFrame(() => animateNumber(element, target));
+            }
+        }
+
+        priceSlider.addEventListener('input', updateCalculations);
+        salesSlider.addEventListener('input', updateCalculations);
+
+        // Initialisation au chargement
+        updateCalculations();
+    </script>
+</body>
+</html>
