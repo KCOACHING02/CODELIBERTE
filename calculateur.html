@@ -3,135 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brille et Vibre - Estime tes Revenus MRR</title>
+    <title>Brille et Vibre - Ton Estimation Personnalisée</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #6d28d9;
-            --secondary-color: #a78bfa;
-            --bg-light: #f9fafb;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: #1f2937;
-        }
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: #e5e7eb;
-            outline: none;
-        }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-        .card-revenue {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        }
+        :root { --primary-color: #6d28d9; --secondary-color: #a78bfa; }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1f2937; }
+        .card-revenue { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
+        .warning-box { border-left: 4px solid #f59e0b; background-color: #fffbeb; }
+        .animate-value { transition: all 1.5s ease-out; }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <div class="max-w-3xl mx-auto w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div class="p-8 text-center border-b border-gray-100">
-            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Simulateur de Revenus <span class="text-purple-600">Brille et Vibre</span></h1>
-            <p class="text-gray-600 text-lg">Ajuste les paramètres pour voir ce que le MRR peut t'apporter.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Ton Estimation <span class="text-purple-600">Brille et Vibre</span></h1>
+            <p id="user-profile-msg" class="text-gray-600 font-medium italic">Analyse de ton profil entrepreneurial...</p>
         </div>
 
-        <div class="p-8 space-y-10">
-            <div>
-                <div class="flex justify-between mb-4">
-                    <label class="font-semibold text-gray-700">Prix de vente de ta formation (€)</label>
-                    <span id="price-display" class="font-bold text-purple-600 text-xl">497 €</span>
-                </div>
-                <input type="range" id="price-slider" min="50" max="1000" step="10" value="497" class="slider">
-                <p class="text-xs text-gray-400 mt-2 italic">*Le prix moyen constaté pour une formation MRR complète est de 497€.</p>
-            </div>
-
-            <div>
-                <div class="flex justify-between mb-4">
-                    <label class="font-semibold text-gray-700">Nombre de ventes par semaine</label>
-                    <span id="sales-display" class="font-bold text-purple-600 text-xl">3</span>
-                </div>
-                <input type="range" id="sales-slider" min="1" max="20" step="1" value="3" class="slider">
-            </div>
-
-            <div class="card-revenue p-8 rounded-xl text-white text-center shadow-lg">
-                <p class="text-sm uppercase tracking-widest opacity-80 mb-2 font-semibold">Ton potentiel de revenu mensuel</p>
+        <div class="p-8 space-y-8">
+            <div class="card-revenue p-8 rounded-xl text-white text-center shadow-lg transform transition-transform hover:scale-[1.02]">
+                <p class="text-sm uppercase tracking-widest opacity-90 mb-2 font-semibold">Revenu mensuel potentiel envisagé</p>
                 <div class="text-6xl font-black mb-4"><span id="total-revenue">0</span> €</div>
-                <p class="text-xs opacity-70">Basé sur un mois de 4 semaines. Revenus 100% pour toi (modèle MRR).</p>
+                <p class="text-sm opacity-80 text-center">Basé sur tes disponibilités et le modèle MRR (100% de profit).</p>
             </div>
 
-            <div class="text-center space-y-4">
-                <h3 class="text-xl font-bold text-gray-800">Ce résultat te fait vibrer ?</h3>
-                <p class="text-gray-600">Ton profil est validé et les chiffres sont là. Réserve ton appel stratégique offert pour que nous puissions mettre cela en place ensemble.</p>
+            <div class="warning-box p-6 rounded-r-lg shadow-sm">
+                <div class="flex items-start">
+                    <span class="text-2xl mr-3">⚠️</span>
+                    <div>
+                        <p class="text-amber-800 font-bold mb-1 text-lg">Note Importante :</p>
+                        <p class="text-amber-900 leading-relaxed">
+                            Ces revenus ne peuvent être atteints qu'en **maîtrisant les méthodes de marketing digital**. 
+                            Si tu maîtrises déjà ces leviers, ce sont des revenus que tu peux envisager sereinement. 
+                            Sinon, la méthode <span class="font-bold underline text-purple-800">Code Liberté</span> t'aidera à atteindre cet objectif étape par étape.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <p class="text-gray-500 text-sm">Ventes estimées / mois</p>
+                    <p id="sales-display" class="text-2xl font-bold text-purple-700">--</p>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <p class="text-gray-500 text-sm">Prix de la formation</p>
+                    <p class="text-2xl font-bold text-purple-700">497 €</p>
+                </div>
+            </div>
+
+            <div class="text-center space-y-4 pt-4 border-t border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800">Prêt(e) à passer à l'action ?</h3>
+                <p class="text-gray-600 px-4">Réserve ton appel stratégique offert pour valider ton projet et découvrir comment appliquer la méthode.</p>
                 
-                <a href="https://calendly.com/ton-lien" target="_blank" class="inline-block w-full sm:w-auto px-10 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-full transition-all transform hover:scale-105 shadow-xl">
+                <a href="https://calendly.com/ton-lien" target="_blank" class="inline-block w-full px-10 py-5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xl rounded-full transition-all shadow-xl hover:shadow-2xl text-center">
                     Réserver mon appel stratégique (Offert)
                 </a>
                 
-                <p class="text-sm text-gray-400">Places limitées pour garantir un accompagnement de qualité.</p>
+                <p class="text-xs text-gray-400 italic">Places limitées pour garantir un accompagnement de qualité.</p>
             </div>
         </div>
     </div>
 
     <script>
-        const priceSlider = document.getElementById('price-slider');
-        const salesSlider = document.getElementById('sales-slider');
-        const priceDisplay = document.getElementById('price-display');
+        // Lecture des paramètres de l'URL transmis par le quiz
+        const urlParams = new URLSearchParams(window.location.search);
+        const tempsUser = urlParams.get('temps') || '5-10';
+
+        const revenueDisplay = document.getElementById('total-revenue');
         const salesDisplay = document.getElementById('sales-display');
-        const totalRevenue = document.getElementById('total-revenue');
+        const profileMsg = document.getElementById('user-profile-msg');
 
-        function updateCalculations() {
-            const price = parseInt(priceSlider.value);
-            const salesPerWeek = parseInt(salesSlider.value);
-            
-            // Mise à jour des textes
-            priceDisplay.textContent = price + " €";
-            salesDisplay.textContent = salesPerWeek;
+        function calculerEstimation() {
+            let ventesMensuelles = 0;
+            let messageProfil = "";
 
-            // Calcul : Prix * Ventes par semaine * 4 semaines
-            const monthlyTotal = price * salesPerWeek * 4;
+            // Logique de calcul basée sur le temps investi
+            if (tempsUser === '15plus') {
+                ventesMensuelles = 20; // Environ 5 ventes par semaine
+                messageProfil = "Profil 'Performeur' : Ton engagement est un levier de succès majeur.";
+            } else if (tempsUser === '5-10') {
+                ventesMensuelles = 12; // Environ 3 ventes par semaine
+                messageProfil = "Profil 'Équilibré' : Une base solide pour une croissance régulière.";
+            } else {
+                ventesMensuelles = 4; // Environ 1 vente par semaine
+                messageProfil = "Profil 'Explorateur' : Idéal pour démarrer en douceur.";
+            }
+
+            const prixFormation = 497;
+            const totalFinal = ventesMensuelles * prixFormation;
+
+            // Mise à jour de l'affichage
+            salesDisplay.textContent = ventesMensuelles;
+            profileMsg.textContent = messageProfil;
             
-            // Animation du chiffre
-            animateNumber(totalRevenue, monthlyTotal);
+            // Animation fluide du montant
+            animateNumber(revenueDisplay, totalFinal);
         }
 
         function animateNumber(element, target) {
-            let current = parseInt(element.textContent.replace(/\s/g, '')) || 0;
-            const step = Math.ceil(Math.abs(target - current) / 10);
+            let startTimestamp = null;
+            const duration = 2000; // 2 secondes pour l'animation
             
-            if (current < target) {
-                current = Math.min(current + step, target);
-            } else {
-                current = Math.max(current - step, target);
-            }
-            
-            element.textContent = current.toLocaleString('fr-FR');
-            
-            if (current !== target) {
-                requestAnimationFrame(() => animateNumber(element, target));
-            }
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = Math.floor(progress * target);
+                
+                element.textContent = current.toLocaleString('fr-FR');
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
         }
 
-        priceSlider.addEventListener('input', updateCalculations);
-        salesSlider.addEventListener('input', updateCalculations);
-
-        // Initialisation au chargement
-        updateCalculations();
+        // Lancement automatique du calcul au chargement de la page
+        window.onload = calculerEstimation;
     </script>
 </body>
 </html>
