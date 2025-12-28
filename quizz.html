@@ -3,283 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Brille et Vibre - Ton potentiel Business en Ligne</title>
+    <title>Quel Est Ton Superpouvoir en Marketing Digital ?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
         :root {
-            --primary-color: #6d28d9;
-            --secondary-color: #a78bfa;
-            --text-color: #374151;
-            --bg-light: #f3f4f6;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
         }
+        
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--text-color);
-            background-color: var(--bg-light);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            display: block;
+        
+        .container-quiz {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
         }
-        .btn-primary:hover {
-            background-color: #5b21b6;
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.6s ease-out;
         }
-        .btn-secondary {
-            background-color: #e5e7eb;
-            color: var(--text-color);
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .btn-secondary:hover {
-            background-color: #d1d5db;
+        
+        .progress-container {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
         }
-        .progress-bar-fill {
+        
+        .progress-bar {
             height: 100%;
-            background-color: var(--secondary-color);
-            width: 0%;
-            border-radius: 9999px;
-            transition: width 0.5s ease-in-out;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.4s ease;
+            border-radius: 999px;
         }
-        .question-card {
-            background-color: white;
-            padding: 2.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            animation: fadeIn 0.5s ease-out;
+        
+        .question-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            line-height: 1.3;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .question-subtitle {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            font-style: italic;
         }
-        .answer-option {
+        
+        .option {
+            background: #f9fafb;
+            border: 3px solid transparent;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
             cursor: pointer;
-            padding: 1rem 1.5rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            text-align: left;
-            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .answer-option:hover {
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.5s ease;
         }
-        .answer-option.selected {
-            background-color: var(--secondary-color);
+        
+        .option:hover::before {
+            left: 100%;
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            transform: translateX(8px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+        }
+        
+        .option.selected {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
             color: white;
-            border-color: var(--primary-color);
+            border-color: var(--secondary);
+            transform: scale(1.02);
+        }
+        
+        .option-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background: #d1d5db;
+        }
+        
+        .result-card {
+            text-align: center;
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s ease infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .result-subtitle {
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        
+        .result-description {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #4b5563;
+        }
+        
+        .result-cta {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: white;
+            padding: 1.5rem 3rem;
+            border-radius: 16px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 2rem;
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .result-cta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(245, 158, 11, 0.5);
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-    <div class="max-w-3xl mx-auto w-full">
+<body>
+    <div class="container-quiz">
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold mb-2" style="color: var(--primary-color);">
-                Quiz "Brille et Vibre"
+            <h1 style="font-size: 3rem; font-weight: 900; color: white; margin-bottom: 0.5rem; text-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                Quel Est Ton Superpouvoir Digital ? ✨
             </h1>
-            <p class="text-lg text-gray-600">
-                Découvre ton potentiel pour le business en ligne
+            <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9);">
+                Découvre la stratégie qui va transformer ton business
             </p>
         </div>
 
-        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
-            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        <div class="progress-container">
+            <div id="progressBar" class="progress-bar" style="width: 0%"></div>
         </div>
 
-        <div id="quiz-container" class="question-card">
+        <div id="quizCard" class="card">
+            <div class="question-title" id="questionTitle"></div>
+            <div class="question-subtitle" id="questionSubtitle"></div>
+            <div id="optionsContainer"></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 2.5rem; gap: 1rem;">
+                <button id="prevBtn" class="btn btn-secondary" style="flex: 1;">← Retour</button>
+                <button id="nextBtn" class="btn btn-primary" style="flex: 2;" disabled>Continuer →</button>
             </div>
+        </div>
 
-        <div id="results-container" class="question-card hidden">
-            <h2 class="text-3xl font-bold mb-4 text-center">Ton Profil Entrepreneur Brille et Vibre !</h2>
-            <p class="text-lg text-gray-700 mb-6 text-center">
-                Félicitations ! D'après tes réponses, voici une analyse de ton potentiel pour le business en ligne.
-            </p>
-            <div class="bg-gray-100 p-6 rounded-lg mb-6">
-                <p class="text-xl font-semibold mb-2" style="color: var(--primary-color);">Ton Score de Potentiel : <span id="final-score" class="font-bold text-3xl"></span> %</p>
-                <p class="text-lg">
-                    <span id="score-message"></span>
-                </p>
-            </div>
-
-            <h3 class="text-2xl font-bold mb-4 text-center">Étape Suivante</h3>
-            
-            <div class="mt-8">
-                <a href="https://shop.beacons.ai/brilleetvibre/9cff3d0a-5313-4c90-9db5-7e6d5ec54309" class="btn-primary w-full block">
-                    Clique si tu veux une idée de business pour atteindre tes objectifs
-                </a>
-            </div>
+        <div id="resultCard" class="card result-card hidden">
+            <div class="result-icon" id="resultIcon"></div>
+            <h2 class="result-title" id="resultTitle"></h2>
+            <h3 class="result-subtitle" id="resultSubtitle"></h3>
+            <div class="result-description" id="resultDescription"></div>
+            <a href="https://shop.beacons.ai/brilleetvibre/9cff3d0a-5313-4c90-9db5-7e6d5ec54309" class="result-cta">
+                🚀 Découvre Ta Formation Personnalisée
+            </a>
         </div>
     </div>
 
     <script>
-        const quizContainer = document.getElementById('quiz-container');
-        const resultsContainer = document.getElementById('results-container');
-        const finalScoreDisplay = document.getElementById('final-score');
-        const scoreMessageDisplay = document.getElementById('score-message');
-        const progressBarFill = document.getElementById('progress-bar-fill');
-
-        let currentQuestionIndex = 0;
-        let selectedAnswers = [];
-
         const questions = [
             {
-                question: "Quelle est ta principale motivation pour démarrer un business en ligne ?",
+                title: "Imagine-toi dans 2 ans...",
+                subtitle: "Quelle version de toi te fait vibrer ?",
                 options: [
-                    { text: "Atteindre l'indépendance financière et la liberté géographique.", value: 10 },
-                    { text: "Avoir un revenu complémentaire sans trop d'efforts.", value: 5 },
-                    { text: "Apprendre de nouvelles compétences et me développer.", value: 7 },
-                    { text: "Suivre la tendance et voir ce que ça donne.", value: 3 }
+                    { text: "Je crée du contenu qui inspire des milliers de personnes", profile: "createur", value: 10 },
+                    { text: "Je construis une communauté engagée qui me fait confiance", profile: "batisseur", value: 10 },
+                    { text: "Je maîtrise les systèmes qui génèrent des revenus pendant mon sommeil", profile: "architecte", value: 10 },
+                    { text: "Je vends avec authenticité ce en quoi je crois vraiment", profile: "connecteur", value: 10 }
                 ]
             },
             {
-                question: "Combien de temps es-tu prêt(e) à consacrer à ton projet par semaine ?",
+                title: "Quand tu penses 'liberté'...",
+                subtitle: "Qu'est-ce qui résonne le plus en toi ?",
                 options: [
-                    { text: "15 heures ou plus (à fond !)", value: 10 },
-                    { text: "5 à 10 heures (régulièrement)", value: 7 },
-                    { text: "1 à 4 heures (pour commencer)", value: 4 },
-                    { text: "Moins d'une heure (occasionnellement)", value: 1 }
+                    { text: "Créer de n'importe où, avec juste mon laptop", profile: "createur", value: 8 },
+                    { text: "Avoir un impact réel sur la vie des gens", profile: "batisseur", value: 8 },
+                    { text: "Ne plus échanger mon temps contre de l'argent", profile: "architecte", value: 8 },
+                    { text: "Gagner ma vie en étant 100% authentique", profile: "connecteur", value: 8 }
                 ]
             },
             {
-                question: "Comment réagis-tu face à un échec ou une difficulté ?",
+                title: "Ton plus grand talent naturel, c'est...",
+                subtitle: "Ce que les autres admirent chez toi",
                 options: [
-                    { text: "J'analyse, j'apprends et je pivote rapidement.", value: 10 },
-                    { text: "Je suis déçu(e) mais je persévère.", value: 7 },
-                    { text: "J'ai tendance à abandonner si c'est trop dur.", value: 3 },
-                    { text: "Je cherche immédiatement une solution externe.", value: 5 }
+                    { text: "Raconter des histoires qui captivent", profile: "createur", value: 9 },
+                    { text: "Rassembler et fédérer les gens", profile: "batisseur", value: 9 },
+                    { text: "Comprendre et optimiser les systèmes", profile: "architecte", value: 9 },
+                    { text: "Créer des connexions authentiques instantanément", profile: "connecteur", value: 9 }
                 ]
             },
             {
-                question: "Es-tu à l'aise avec l'idée d'apprendre de nouvelles technologies et outils ?",
+                title: "Ce qui te donne de l'énergie...",
+                subtitle: "Même quand tu es fatigué(e)",
                 options: [
-                    { text: "Oui, j'adore découvrir et maîtriser de nouveaux outils.", value: 10 },
-                    { text: "Un peu, si c'est nécessaire et pas trop complexe.", value: 7 },
-                    { text: "Pas vraiment, je préfère ce qui est simple et connu.", value: 4 },
-                    { text: "Non, je suis technophobe.", value: 1 }
+                    { text: "Créer quelque chose de nouveau et original", profile: "createur", value: 7 },
+                    { text: "Voir ma communauté grandir et s'entraider", profile: "batisseur", value: 7 },
+                    { text: "Optimiser un processus jusqu'à la perfection", profile: "architecte", value: 7 },
+                    { text: "Avoir des conversations profondes et vraies", profile: "connecteur", value: 7 }
                 ]
             },
             {
-                question: "Quelle est ton approche vis-à-vis de l'investissement initial (temps ou argent) ?",
+                title: "Dans 6 mois, tu veux pouvoir dire...",
+                subtitle: "Quelle victoire te rendrait le plus fier(e) ?",
                 options: [
-                    { text: "Je suis prêt(e) à investir ce qu'il faut pour réussir.", value: 10 },
-                    { text: "Je préfère commencer petit et augmenter progressivement.", value: 7 },
-                    { text: "Je cherche des solutions totalement gratuites.", value: 3 },
-                    { text: "Je ne veux rien investir du tout.", value: 1 }
+                    { text: "Mon contenu touche des milliers de personnes chaque jour", profile: "createur", value: 10 },
+                    { text: "J'ai créé une tribu qui partage mes valeurs", profile: "batisseur", value: 10 },
+                    { text: "Mes revenus passifs couvrent mes dépenses", profile: "architecte", value: 10 },
+                    { text: "Je vis de ma passion en restant aligné(e)", profile: "connecteur", value: 10 }
                 ]
             }
         ];
 
+        const profiles = {
+            createur: {
+                icon: "🎨",
+                title: "Le Créateur de Contenu",
+                subtitle: "Ton superpouvoir : Captiver par la Création",
+                description: "Tu as le don de transformer des idées en contenu magnétique. Les gens ne peuvent pas détourner le regard quand tu partages. Ta stratégie gagnante : Content Marketing & Personal Branding. Crée du contenu viral, bâtis ta marque personnelle, monétise ton influence."
+            },
+            batisseur: {
+                icon: "🏗️",
+                title: "Le Bâtisseur de Communauté",
+                subtitle: "Ton superpouvoir : Rassembler et Fédérer",
+                description: "Tu crées des tribus, pas des audiences. Les gens te suivent parce qu'ils croient en ta vision. Ta stratégie gagnante : Community Building & Membership. Transforme ton expertise en communauté premium, crée de l'engagement, monétise par l'appartenance."
+            },
+            architecte: {
+                icon: "⚙️",
+                title: "L'Architecte de Systèmes",
+                subtitle: "Ton superpouvoir : Automatiser l'Impossible",
+                description: "Tu vois des processus là où les autres voient du chaos. Tu optimises, automatises, systématises. Ta stratégie gagnante : Funnels & Automation. Construis des machines à vendre, automatise tes revenus, scale sans limite."
+            },
+            connecteur: {
+                icon: "💫",
+                title: "Le Connecteur Authentique",
+                subtitle: "Ton superpouvoir : Vendre Sans Vendre",
+                description: "Les gens t'achètent parce qu'ils te font confiance. Tu crées des connexions réelles, pas des transactions. Ta stratégie gagnante : Relationship Marketing & Coaching. Monétise tes relations authentiques, vends avec intégrité, impacte profondément."
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
         function loadQuestion() {
-            if (currentQuestionIndex < questions.length) {
-                const q = questions[currentQuestionIndex];
-                quizContainer.innerHTML = `
-                    <h2 class="text-2xl font-bold mb-6 text-center">${q.question}</h2>
-                    <div id="options-container" class="flex flex-col">
-                        ${q.options.map((option, index) => `
-                            <div class="answer-option" data-value="${option.value}" data-index="${index}">
-                                ${option.text}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="flex justify-between mt-8">
-                        <button id="prev-btn" class="btn-secondary ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            Précédent
-                        </button>
-                        <button id="next-btn" class="btn-primary" disabled>
-                            Suivant
-                        </button>
-                    </div>
-                `;
+            const q = questions[currentQuestion];
+            document.getElementById('questionTitle').textContent = q.title;
+            document.getElementById('questionSubtitle').textContent = q.subtitle;
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = q.options.map((opt, idx) => `
+                <div class="option" data-index="${idx}">
+                    <div class="option-text">${opt.text}</div>
+                </div>
+            `).join('');
 
-                updateProgressBar();
-
-                document.querySelectorAll('.answer-option').forEach(optionElement => {
-                    optionElement.addEventListener('click', () => {
-                        document.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
-                        optionElement.classList.add('selected');
-                        document.getElementById('next-btn').disabled = false;
-                    });
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    document.getElementById('nextBtn').disabled = false;
                 });
-
-                document.getElementById('next-btn').addEventListener('click', handleNextQuestion);
-                document.getElementById('prev-btn').addEventListener('click', handlePreviousQuestion);
-
-                if (selectedAnswers[currentQuestionIndex] !== undefined) {
-                    const selectedOptionIndex = selectedAnswers[currentQuestionIndex].optionIndex;
-                    const optionElement = document.querySelector(`.answer-option[data-index="${selectedOptionIndex}"]`);
-                    if (optionElement) {
-                        optionElement.classList.add('selected');
-                        document.getElementById('next-btn').disabled = false;
-                    }
-                }
-
-            } else {
-                showResults();
-            }
-        }
-
-        function handleNextQuestion() {
-            const selectedOption = document.querySelector('.answer-option.selected');
-            if (selectedOption) {
-                const value = parseInt(selectedOption.dataset.value);
-                const optionIndex = parseInt(selectedOption.dataset.index);
-                selectedAnswers[currentQuestionIndex] = { value, optionIndex };
-                currentQuestionIndex++;
-                loadQuestion();
-            }
-        }
-
-        function handlePreviousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion();
-            }
-        }
-
-        function calculateFinalScore() {
-            let totalPossibleScore = 0;
-            let userScore = 0;
-            questions.forEach((q, qIndex) => {
-                const maxVal = Math.max(...q.options.map(o => o.value));
-                totalPossibleScore += maxVal;
-                if (selectedAnswers[qIndex]) {
-                    userScore += selectedAnswers[qIndex].value;
-                }
             });
-            return Math.round((userScore / totalPossibleScore) * 100);
+
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').disabled = true;
+
+            updateProgress();
         }
 
-        function showResults() {
-            quizContainer.classList.add('hidden');
-            resultsContainer.classList.remove('hidden');
-            const finalScore = calculateFinalScore();
-            finalScoreDisplay.textContent = finalScore;
+        function getTopProfile() {
+            const scores = {};
+            answers.forEach(answer => {
+                const profile = answer.profile;
+                scores[profile] = (scores[profile] || 0) + answer.value;
+            });
+            return Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        }
 
-            if (finalScore >= 80) {
-                scoreMessageDisplay.innerHTML = "Incroyable ! Ton profil est **extrêmement aligné** avec les exigences du business en ligne. Tu as la détermination, la curiosité et la résilience nécessaires pour briller et vibrer.";
-            } else if (finalScore >= 60) {
-                scoreMessageDisplay.innerHTML = "Très prometteur ! Tu as un **excellent potentiel**. Avec la bonne méthode, tu peux transformer ce potentiel en réels succès.";
-            } else if (finalScore >= 40) {
-                scoreMessageDisplay.innerHTML = "Bonne base ! Tu as un **potentiel certain**, mais quelques points pourraient être renforcés pour t'épanouir pleinement.";
-            } else {
-                scoreMessageDisplay.innerHTML = "En cours de développement. Avec un bon accompagnement et une volonté d'apprendre, tout est possible.";
+        function showResult() {
+            const topProfile = getTopProfile();
+            const result = profiles[topProfile];
+            
+            document.getElementById('quizCard').classList.add('hidden');
+            document.getElementById('resultCard').classList.remove('hidden');
+            
+            document.getElementById('resultIcon').textContent = result.icon;
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultSubtitle').textContent = result.subtitle;
+            document.getElementById('resultDescription').textContent = result.description;
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const selected = document.querySelector('.option.selected');
+            if (selected) {
+                const idx = parseInt(selected.dataset.index);
+                const answer = questions[currentQuestion].options[idx];
+                answers[currentQuestion] = answer;
+                
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
             }
-        }
+        });
 
-        function updateProgressBar() {
-            const progress = (currentQuestionIndex / questions.length) * 100;
-            progressBarFill.style.width = `${progress}%`;
-        }
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        });
 
         loadQuestion();
     </script>
